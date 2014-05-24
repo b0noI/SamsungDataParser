@@ -94,7 +94,7 @@ generate_tidy <- function() {
 process_average_for_activity <- function(activity_name) {
   print(c("Parsing activity: ", activity_name))
   activity_data_frame <- subset(total_data_frame_filtered, total_data_frame_filtered[ACTIVITY_COLUMN_NAME] == activity_name)
-  return (sapply(activity_data_frame, function(x) if (is.numeric(x)) sum(x, na.rm = TRUE) / length(x) else activity_name))
+  return (sapply(activity_data_frame, function(x) if (is.numeric(x)) sum(x, na.rm = TRUE) / (length(x) - sum(is.na(x))) else activity_name))
 }
 
 # This is main method that starts all logic
