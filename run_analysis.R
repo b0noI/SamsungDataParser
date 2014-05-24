@@ -31,10 +31,41 @@ read_activity_lables <- function(path_to_activity_codes) {
   return(labels[match(activity_codes, codes)])
 }
 
-# Reading data frames
-test_data_frame <- read_data_frame(X_TEST_PATH, Y_TEST_PATH)
-train_data_frame <- read_data_frame(X_TRAIN_PATH, Y_TRAIN_PATH)
+# This method will filter vector (column)
+filter_column <- function(column) {
+  # if vector is not numeric we shouldn't do anything
+  if (!is.numeric(column))
+    return (column)
+  # Calculating mean
+  mean <- mean(column)
+  # Calculating StandartDiviation
+  sd <- sd(column)
+  # Setting to NA all items that not on mean and on standart deviation
+  sapply(column, function(x) if (x < mean - sd || x > mean + sd) return(NA) else return(x))
+}
 
-# Creating total data frame
-total_data_frame <- rbind(test_data_frame, train_data_frame)
+# This method will apply filter method for each column in DataSet
+filter_data_frame <- function(data_frame) {
+  data_frame_with_na <- sapply(data_frame, filter_column)
+}
+
+main <- function() {
+  # Reading data frames
+  print("Reading Test Data Frame From file...")
+  test_data_frame <- read_data_frame(X_TEST_PATH, Y_TEST_PATH)
+  print("Test Data Frame was loaded to test_data_frame")
+  print("Reading Train Data Frame From file...")
+  train_data_frame <- read_data_frame(X_TRAIN_PATH, Y_TRAIN_PATH)
+  print("Train Data Frame was loaded to train_data_frame")
+  
+  # Creating total data frame
+  print("Joining test_data_frame and train_data_frame...")
+  total_data_frame <- rbind(test_data_frame, train_data_frame)
+  print("Joining test_data_frame and train_data_frame completed to total_data_frame")
+  print("Filtering total_data_frame")
+  total_data_frame <- filter_data_frame(total_data_frame)
+  print("Filtering total_data_frame completed")
+}
+
+main()
 
