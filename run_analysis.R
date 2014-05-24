@@ -97,6 +97,16 @@ process_average_for_activity <- function(activity_name) {
   return (sapply(activity_data_frame, function(x) if (is.numeric(x)) sum(x, na.rm = TRUE) / (length(x) - sum(is.na(x))) else activity_name))
 }
 
+print_result <- function() {
+  print("Next data frames were created during scipr process:")
+  print("1) tidy")
+  print("2) total_data_frame_filtered")
+  print("3) total_data_frame")
+  print("4) train_data_frame")
+  print("5) test_data_frame")
+  print(tidy)
+}
+
 # This is main method that starts all logic
 main <- function() {
   read_data_frames()
@@ -104,6 +114,8 @@ main <- function() {
   process_data_frames()
   
   generate_tidy()
+  
+  print_result()
 }
 
 main()
